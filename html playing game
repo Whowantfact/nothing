@@ -1,0 +1,79 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML Game with Joystick</title>
+<style>
+#game-container {
+width: 300px;
+height: 300px;
+position: relative;
+border: 1px solid black;
+}
+#player {
+width: 50px;
+height: 50px;
+position: absolute;
+background-color: red;
+}
+#joystick {
+width: 100px;
+height: 100px;
+position: absolute;
+background-color: rgba(0, 0, 0, 0.5);
+border-radius: 50%;
+top: 150px;
+left: 150px;
+transform: translate(-50%, -50%);
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 24px;
+color: white;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+<div id="player"></div>
+<div id="joystick">+</div>
+</div>
+<script>
+var player = document.getElementById("player");
+var joystick = document.getElementById("joystick");
+var gameContainer = document.getElementById("game-container");
+var posX = 0;
+var posY = 0;
+function movePlayer(x, y) {
+posX += x;
+posY += y;
+player.style.left = posX + "px";
+player.style.top = posY + "px";
+}
+joystick.addEventListener("mousedown", function(event) {
+var startY = event.clientY;
+function handleMouseMove(event) {
+var moveY = event.clientY - startY;
+movePlayer(0, moveY);
+startY = event.clientY;
+}
+function handleMouseUp() {
+document.removeEventListener("mousemove", handleMouseMove);
+document.removeEventListener("mouseup", handleMouseUp);
+}
+document.addEventListener("mousemove", handleMouseMove);
+document.addEventListener("mouseup", handleMouseUp);
+});
+joystick.addEventListener("touchstart", function(event) {
+var touch = event.touches[0];
+var startY = touch.clientY;
+function handleTouchMove(event) {
+var touch = event.touches[0];
+var moveY = touch.clientY - startY;
+movePlayer(0, moveY);
+startY = touch.clientY;
+}
+function handleTouchEnd() {
+document.removeEventListener("touchmove", handleTouchMove);
+document.removeEventListener
